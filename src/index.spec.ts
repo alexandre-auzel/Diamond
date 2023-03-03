@@ -1,12 +1,133 @@
-// @ts-ignore see https://github.com/jest-community/jest-extended#setup
-import * as matchers from "jest-extended";
+import { computeEquivalentTopLineIndex, createTopDiamondLine, diamond } from ".";
 
-expect.extend(matchers);
+describe("Create line", () => {
+  test("line", () => {
+    // GIVEN
+    const row = 0;
+    const n = 1;
+    // WHEN
+    const actual = createTopDiamondLine(row, n);
 
-test("That's a test!", () => {
-  expect(1 + 1).toEqual(2);
+    // THEN
+    expect(actual).toEqual(["*"]);
+  });
+
+  test("line", () => {
+    // GIVEN
+    const row = 1;
+    const n = 3;
+    // WHEN
+    const actual = createTopDiamondLine(row, n);
+
+    // THEN
+    expect(actual).toEqual(["*", "*", "*"]);
+  });
+
+  test("[TRIANGULATION] line", () => {
+    // GIVEN
+    const row = 2;
+    const n = 5;
+    // WHEN
+    const actual = createTopDiamondLine(row, n);
+
+    // THEN
+    expect(actual).toEqual(["*", "*", "*", "*", "*"]);
+  });
+
+  test("line", () => {
+    // GIVEN
+    const row = 0;
+    const n = 3;
+    // WHEN
+    const actual = createTopDiamondLine(row, n);
+
+    // THEN
+    expect(actual).toEqual([" ", "*"]);
+  });
 });
 
-test("jest-extended is included", () => {
-  expect([1, 0]).toIncludeSameMembers([0, 1]);
+describe("computeEquivalentTopLineIndex", () => {
+  test("", () => {
+    // GIVEN
+    const actualIndex = 0;
+    const n = 3;
+    // WHEN
+    const actual = computeEquivalentTopLineIndex(actualIndex, n);
+
+    // THEN
+    expect(actual).toEqual(0);
+  });
+
+  test("[TRIANGULATION]", () => {
+    // GIVEN
+    const actualIndex = 1;
+    const n = 3;
+    // WHEN
+    const actual = computeEquivalentTopLineIndex(actualIndex, n);
+
+    // THEN
+    expect(actual).toEqual(1);
+  });
+
+  test("", () => {
+    // GIVEN
+    const actualIndex = 2;
+    const n = 3;
+    // WHEN
+    const actual = computeEquivalentTopLineIndex(actualIndex, n);
+
+    // THEN
+    expect(actual).toEqual(0);
+  });
+
+  test("[TRIANGULATION]", () => {
+    // GIVEN
+    const actualIndex = 3;
+    const n = 5;
+    // WHEN
+    const actual = computeEquivalentTopLineIndex(actualIndex, n);
+
+    // THEN
+    expect(actual).toEqual(1);
+  });
+
+  test("Diamond", () => {
+    // GIVEN
+    const n = 1;
+    // WHEN
+    const actual = diamond(n);
+
+    // THEN
+    expect(actual).toEqual([["*"]]);
+  });
+
+  test("Diamond", () => {
+    // GIVEN
+    const n = 3;
+    // WHEN
+    const actual = diamond(n);
+
+    // THEN
+    expect(actual).toEqual([
+      [" ", "*"],
+      ["*", "*", "*"],
+      [" ", "*"],
+    ]);
+  });
+
+  test("CONTROLE Diamond", () => {
+    // GIVEN
+    const n = 5;
+    // WHEN
+    const actual = diamond(n);
+
+    // THEN
+    expect(actual).toEqual([
+      [" ", " ", "*"],
+      [" ", "*", "*", "*"],
+      ["*", "*", "*", "*", "*"],
+      [" ", "*", "*", "*"],
+      [" ", " ", "*"],
+    ]);
+  });
 });
